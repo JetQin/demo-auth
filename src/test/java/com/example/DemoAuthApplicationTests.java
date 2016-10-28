@@ -1,6 +1,6 @@
 package com.example;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -37,7 +37,8 @@ public class DemoAuthApplicationTests {
   public void testGetGreeting(){
     try
     {
-      mvc.perform(get("/admin").with(user("admin").password("admin").roles("USER","ADMIN")));
+      mvc.perform(get("/").with(httpBasic("user","password")));
+//      mvc.perform(get("/admin").with(user("admin").password("admin").roles("USER","ADMIN")));
     }
     catch (Exception e)
     {

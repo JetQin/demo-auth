@@ -26,9 +26,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
-  
-//  @Autowired
-//  AuthUserDetailService authUserDetailService;
+
+  // @Autowired
+  // AuthUserDetailService authUserDetailService;
 
   /*
    * (non-Javadoc)
@@ -37,14 +37,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
    * WebSecurityConfigurerAdapter#configure(org.springframework.security.config.
    * annotation.authentication.builders.AuthenticationManagerBuilder)
    */
-  @Override
-  protected void configure (AuthenticationManagerBuilder auth) throws Exception
+  @Autowired
+  protected void configureGlobal (AuthenticationManagerBuilder auth) throws Exception
   {
     // TODO Auto-generated method stub
     super.configure(auth);
-    auth.inMemoryAuthentication().withUser("user").password("user").roles("ADMIN");
-//    auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
-//    auth.userDetailsService(authUserDetailService);
+    auth.inMemoryAuthentication().withUser("user").password("user").roles("USER");
+    auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
+    // auth.userDetailsService(authUserDetailService);
   }
 
   /*
@@ -59,14 +59,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
   {
     // TODO Auto-generated method stub
     http.headers().httpStrictTransportSecurity();
-//    http.antMatcher("/**").authorizeRequests()
-//                          .anyRequest()
-//                          .and().httpBasic();
-//    http.authorizeRequests().antMatchers("/*").hasRole("ADMIN").anyRequest().authenticated().and().httpBasic();
-    http.authorizeRequests().antMatchers("/greeting").hasRole("ADMIN")
-                            .antMatchers("/hello").hasRole("USER")
-                            .and().httpBasic();
-    
+    // http.antMatcher("/**").authorizeRequests()
+    // .anyRequest()
+    // .and().httpBasic();
+    // http.authorizeRequests().antMatchers("/*").hasRole("ADMIN").anyRequest().authenticated().and().httpBasic();
+    http.authorizeRequests().antMatchers("/greeting").hasRole("ADMIN").antMatchers("/hello").hasRole("USER").and()
+        .httpBasic();
+
   }
 
 }
