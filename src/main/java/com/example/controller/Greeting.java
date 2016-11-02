@@ -9,7 +9,10 @@
 
 package com.example.controller;
 
+import com.example.domain.PageQuery;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -47,5 +50,13 @@ public class Greeting
   public Date getDate ()
   {
     return new Date();
+  }
+
+  @RequestMapping("/page")
+  @ResponseBody
+  public PageQuery getPageQuery(String query)
+  {
+//    System.out.println(query);
+    return new PageQuery(0,100,"name");
   }
 }
