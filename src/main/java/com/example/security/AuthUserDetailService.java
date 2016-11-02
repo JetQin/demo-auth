@@ -6,7 +6,7 @@
  * Copyright (c) 2016, jetq All Rights Reserved. 
  * 
  */
-package com.example.config;
+package com.example.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
