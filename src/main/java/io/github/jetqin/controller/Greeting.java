@@ -7,16 +7,16 @@
  * 
  */
 
-package com.example.controller;
+package io.github.jetqin.controller;
 
-import com.example.domain.PageQuery;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+
+import io.github.jetqin.domain.PageQuery;
 
 /**
  * ClassName: Greeting
@@ -52,11 +52,12 @@ public class Greeting
     return new Date();
   }
 
+  @PreAuthorize(value = " /hasAuthority('USER')")
   @RequestMapping("/page")
   @ResponseBody
   public PageQuery getPageQuery(String query)
   {
-//    System.out.println(query);
+    System.out.println(query);
     return new PageQuery(0,100,"name");
   }
 }

@@ -6,7 +6,7 @@
  * Copyright (c) 2016, jetq All Rights Reserved. 
  * 
  */
-package com.example.config;
+package io.github.jetqin.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -58,6 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
   protected void configure (HttpSecurity http) throws Exception
   {
     // TODO Auto-generated method stub
+    http.csrf().disable();
     http.headers().httpStrictTransportSecurity();
     // http.antMatcher("/**").authorizeRequests()
     // .anyRequest()
