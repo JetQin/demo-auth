@@ -9,14 +9,13 @@
 
 package io.github.jetqin.controller;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
-
-import io.github.jetqin.domain.PageQuery;
 
 /**
  * ClassName: Greeting
@@ -55,9 +54,9 @@ public class Greeting
   @PreAuthorize(value = " /hasAuthority('USER')")
   @RequestMapping("/page")
   @ResponseBody
-  public PageQuery getPageQuery(String query)
+  public PageRequest getPageQuery(PageRequest query)
   {
     System.out.println(query);
-    return new PageQuery(0,100,"name");
+    return new PageRequest(0,100);
   }
 }

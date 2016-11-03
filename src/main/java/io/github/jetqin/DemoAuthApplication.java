@@ -5,10 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
+import io.github.jetqin.config.PersistenceConfig;
 import io.github.jetqin.config.WebSecurityConfig;
 
 @SpringBootApplication
-@Import(value={WebSecurityConfig.class})
+@Import(value={WebSecurityConfig.class,PersistenceConfig.class})
 @ComponentScan(basePackages="io.github.jetqin.*")
 public class DemoAuthApplication {
  
