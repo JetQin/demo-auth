@@ -9,6 +9,8 @@
 package io.github.jetqin.repository;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -26,9 +28,12 @@ import javax.persistence.StoredProcedureQuery;
 public class JpaEntityRepository
 {
 
-  @PersistenceContext
+//  @Autowired
+  @PersistenceContext//(unitName="JpaEntityRepository")
   EntityManager em;
 
+
+  @Transactional(propagation=Propagation.REQUIRED)
   public void loadResult ( )
   {
     StoredProcedureQuery query = em.createStoredProcedureQuery("LOADOPERATEDMONTHLYPROD");
@@ -37,10 +42,12 @@ public class JpaEntityRepository
     query.registerStoredProcedureParameter(3, Integer.class, ParameterMode.OUT);
     query.registerStoredProcedureParameter(4, String.class, ParameterMode.OUT);
     query.executeUpdate();
+
     int loadCount = (int) query.getOutputParameterValue(1);
     int newCount = (int) query.getOutputParameterValue(2);
     int failedCount = (int) query.getOutputParameterValue(3);
     String message = (String) query.getOutputParameterValue(4);
+
     System.out.println(String.format("load count: %d,new count:%d,failed count:%d,message:%s", loadCount, newCount,
         failedCount, message));
 
