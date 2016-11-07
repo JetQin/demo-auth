@@ -9,13 +9,16 @@
 
 package io.github.jetqin.controller;
 
+import java.util.Date;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Date;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * ClassName: Greeting
@@ -59,4 +62,27 @@ public class Greeting
     System.out.println(query);
     return new PageRequest(0,100);
   }
+  
+//  @RequestMapping("/index")
+//  public ModelAndView index(@RequestParam(value="name", required=false, defaultValue="World") String name) {
+//      ModelAndView mv = new ModelAndView();
+//      mv.addObject("name", "Jet Qin");
+//      mv.setViewName("index");
+//      return mv;
+//  }
+  
+  @RequestMapping("/index")
+  public String index() {
+    return "index";
+  }
+  
+  @RequestMapping ("/login")
+  @ResponseBody
+  public ModelAndView login ()
+  {
+    ModelAndView mv = new ModelAndView();
+    mv.setViewName("login");
+    return mv;
+  }
+
 }

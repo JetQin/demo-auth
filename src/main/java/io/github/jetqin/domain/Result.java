@@ -30,9 +30,9 @@ import lombok.Data;
  */
 
 @Entity
-@Table(name = "PRESULT")
+@Table(name = "RESULT")
 @NamedStoredProcedureQueries(
-      @NamedStoredProcedureQuery(name = "Presult.findLoadResult",procedureName="LOADOPERATEDMONTHLYPROD",resultClasses={Presult.class},
+      @NamedStoredProcedureQuery(name = "Presult.findLoadResult",procedureName="LOADOPERATEDMONTHLYPROD",resultClasses={Result.class},
       parameters={ 
           @StoredProcedureParameter(name="LOAD_COUNT",mode=ParameterMode.OUT,type=Integer.class),
           @StoredProcedureParameter(name="NEW_COUNT",mode=ParameterMode.OUT,type=Integer.class),
@@ -40,9 +40,14 @@ import lombok.Data;
           @StoredProcedureParameter(name="MESSAGE",mode=ParameterMode.OUT,type=String.class)
       })
     )
-public @Data class Presult implements Serializable
+public @Data class Result implements Serializable
 {
-  @Id
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7518856229369739553L;
+
+@Id
   @Column(name = "LOAD_COUNT")
   private int    loadCount;
 

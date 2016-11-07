@@ -28,7 +28,6 @@ import javax.persistence.StoredProcedureQuery;
 public class JpaEntityRepository
 {
 
-//  @Autowired
   @PersistenceContext//(unitName="JpaEntityRepository")
   EntityManager em;
 

@@ -8,16 +8,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import org.springframework.util.Assert;
 
+import io.github.jetqin.config.DruidDataSourceConfig;
 import io.github.jetqin.config.PersistenceConfig;
 import io.github.jetqin.config.WebSecurityConfig;
-import io.github.jetqin.domain.Presult;
-import io.github.jetqin.repository.JpaEntityRepository;
 import io.github.jetqin.repository.ResultRepository;
 
 @SpringBootApplication
-@Import(value = { WebSecurityConfig.class, PersistenceConfig.class })
+@Import(value = { WebSecurityConfig.class, DruidDataSourceConfig.class, PersistenceConfig.class })
 @ComponentScan(basePackages = "io.github.jetqin.*")
 public class DemoAuthApplication
 {
@@ -30,14 +28,11 @@ public class DemoAuthApplication
   }
 
   @Bean
-  public CommandLineRunner demo (JpaEntityRepository repository)
+  public CommandLineRunner demo (ResultRepository repository)
   {
     return (args) ->
     {
-
-//      Presult result = repository.findOne(1);
-//      Assert.notNull(result);
-       repository.loadResult();
+      log.info("command line runner");
     };
   }
 

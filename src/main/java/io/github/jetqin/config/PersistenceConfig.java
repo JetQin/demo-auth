@@ -10,14 +10,17 @@
 
 package io.github.jetqin.config;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import java.util.Properties;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -25,10 +28,7 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import java.util.Properties;
-
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
+import com.alibaba.druid.pool.DruidDataSource;
 
 /**
  * @author jet
@@ -46,12 +46,14 @@ public class PersistenceConfig
   @Bean
   public DataSource dataSource ()
   {
-//        BasicDataSource dataSource = new BasicDataSource();
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    //  BasicDataSource dataSource = new BasicDataSource();
+    //  DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        DruidDataSource dataSource = new DruidDataSource();
 		dataSource.setDriverClassName(env.getProperty("spring.datasource.driverClassName"));
 		dataSource.setUrl(env.getProperty("spring.datasource.url"));
 		dataSource.setUsername(env.getProperty("spring.datasource.username"));
 		dataSource.setPassword(env.getProperty("spring.datasource.password"));
+		dataSource.setMaxActive(Integer.parseInt(env.getProperty("spring.datasource.dbcp.max-active")));
 		return dataSource;
     // return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
   }

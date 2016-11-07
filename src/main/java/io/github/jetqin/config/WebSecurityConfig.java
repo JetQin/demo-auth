@@ -60,11 +60,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     // TODO Auto-generated method stub
     http.csrf().disable();
     http.headers().httpStrictTransportSecurity();
-    // http.antMatcher("/**").authorizeRequests()
-    // .anyRequest()
-    // .and().httpBasic();
-    // http.authorizeRequests().antMatchers("/*").hasRole("ADMIN").anyRequest().authenticated().and().httpBasic();
-    http.authorizeRequests().antMatchers("/greeting").hasRole("ADMIN").antMatchers("/hello").hasRole("USER").and()
+    http.authorizeRequests()
+          .antMatchers("/greeting").hasRole("ADMIN")
+         .antMatchers("/hello").hasRole("USER").and()
         .httpBasic();
 
   }
