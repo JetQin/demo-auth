@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Import;
 import io.github.jetqin.config.DruidDataSourceConfig;
 import io.github.jetqin.config.PersistenceConfig;
 import io.github.jetqin.config.WebSecurityConfig;
+import io.github.jetqin.repository.JpaEntityRepository;
 import io.github.jetqin.repository.ResultRepository;
 
 @SpringBootApplication
@@ -28,10 +29,13 @@ public class DemoAuthApplication
   }
 
   @Bean
-  public CommandLineRunner demo (ResultRepository repository)
+  public CommandLineRunner demo (JpaEntityRepository repository)
   {
     return (args) ->
     {
+      repository.testNamedQuery();
+      repository.testNativeSQLQuery();
+      repository.testSQLQuery();
       log.info("command line runner");
     };
   }
