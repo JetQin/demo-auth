@@ -13,7 +13,7 @@ import io.github.jetqin.config.DruidDataSourceConfig;
 import io.github.jetqin.config.PersistenceConfig;
 import io.github.jetqin.config.WebSecurityConfig;
 import io.github.jetqin.repository.JpaEntityRepository;
-import io.github.jetqin.repository.ResultRepository;
+
 
 @SpringBootApplication
 @Import(value = { WebSecurityConfig.class, DruidDataSourceConfig.class, PersistenceConfig.class })
