@@ -37,7 +37,7 @@ public class DemoAuthApplication
 
 //      Presult result = repository.findOne(1);
 //      Assert.notNull(result);
-       repository.loadResult();
+//       repository.loadResult();
     };
   }
 
