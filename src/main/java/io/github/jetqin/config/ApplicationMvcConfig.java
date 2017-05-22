@@ -75,6 +75,7 @@ public class ApplicationMvcConfig extends WebMvcConfigurerAdapter
     @Override
     public void addResourceHandlers (ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("classpath:/public/");
+        registry.addResourceHandler("/templates/**").addResourceLocations("classpath:/templates/");
         registry.addResourceHandler("/druid/**").addResourceLocations("classpath:/support.http.resources/");
 //        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").resourceChain(true)
 //                .addResolver(new VersionResourceResolver().addFixedVersionStrategy("1.10", "/**/*.js")
