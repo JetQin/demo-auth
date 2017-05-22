@@ -20,11 +20,14 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import io.github.jetqin.config.interceptor.DruidHandler;
 
@@ -35,7 +38,7 @@ import io.github.jetqin.config.interceptor.DruidHandler;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages="io.github.jetqin.controller")
+@ComponentScan(basePackages = "io.github.jetqin.controller")
 public class ApplicationMvcConfig extends WebMvcConfigurerAdapter
 {
 
@@ -56,8 +59,7 @@ public class ApplicationMvcConfig extends WebMvcConfigurerAdapter
     builder.simpleDateFormat("mm/dd/yyyy");
     converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
   }
- 
-  
+
   @Override
   public void addResourceHandlers (ResourceHandlerRegistry registry)
   {
@@ -65,14 +67,28 @@ public class ApplicationMvcConfig extends WebMvcConfigurerAdapter
     registry.addResourceHandler("/public/**").addResourceLocations("classpath:/public/");
     registry.addResourceHandler("/druid/**").addResourceLocations("classpath:/support.http.resources/");
   }
-  
+
   @Override
   public void addInterceptors (InterceptorRegistry registry)
   {
     registry.addInterceptor(new DruidHandler()).addPathPatterns("/**");
   }
-  
-  
+
+  @Bean
+  public ViewResolver getViewResolver ( )
+  {
+    InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+    resolver.setPrefix("/WEB-INF/");
+    resolver.setSuffix(".html");
+    return resolver;
+  }
+
+  @Override
+  public void configureDefaultServletHandling (DefaultServletHandlerConfigurer configurer)
+  {
+    configurer.enable();
+  }
+
   @Bean
   public HandlerExceptionResolver exceptionResolver ( )
   {
@@ -81,6 +97,5 @@ public class ApplicationMvcConfig extends WebMvcConfigurerAdapter
     exceptionResolver.addStatusCode("401", HttpStatus.UNAUTHORIZED.value());
     return exceptionResolver;
   }
-  
-  
+
 }

@@ -73,10 +73,6 @@ public class Greeting
   
   @RequestMapping("/index")
   public String index() {
-    for (int i = 0; i < 10000; i++)
-    {
-      System.out.println(i);
-    }
     return "index";
   }
   
