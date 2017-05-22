@@ -10,6 +10,8 @@
 
 package io.github.jetqin.config;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.jetty.JettyEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +23,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -32,9 +33,6 @@ import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.resource.VersionResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import java.util.List;
-
-import io.github.jetqin.config.interceptor.AppHandler;
 import io.github.jetqin.config.interceptor.DruidHandler;
 
 /**
@@ -69,23 +67,24 @@ public class ApplicationMvcConfig extends WebMvcConfigurerAdapter
     
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/404").setViewName("404.html");
-        registry.addViewController("/500").setViewName("500.html");
+        registry.addViewController("/").setViewName("index");
+        registry.addViewController("/404").setViewName("404");
+        registry.addViewController("/500").setViewName("500");
     }
 
     @Override
     public void addResourceHandlers (ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/react/**").addResourceLocations("classpath:/public/");
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/public/");
         registry.addResourceHandler("/druid/**").addResourceLocations("classpath:/support.http.resources/");
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").resourceChain(true)
-                .addResolver(new VersionResourceResolver().addFixedVersionStrategy("1.10", "/**/*.js")
-                        .addContentVersionStrategy("/**"));
+//        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").resourceChain(true)
+//                .addResolver(new VersionResourceResolver().addFixedVersionStrategy("1.10", "/**/*.js")
+//                        .addContentVersionStrategy("/**"));
     }
 
     @Override
     public void addInterceptors (InterceptorRegistry registry) {
         registry.addInterceptor(new DruidHandler()).addPathPatterns("/druid/**");
-        registry.addInterceptor(new AppHandler()).addPathPatterns("/**");
+//        registry.addInterceptor(new AppHandler()).addPathPatterns("/**");
     }
 
 //    @Bean
@@ -99,18 +98,17 @@ public class ApplicationMvcConfig extends WebMvcConfigurerAdapter
 //    public InternalResourceViewResolver jspViewResolver() {
 //        InternalResourceViewResolver resolver= new InternalResourceViewResolver();
 //        resolver.setPrefix(env.getProperty("server.context-path"));
-//        resolver.setPrefix("");
-//        resolver.setSuffix("");
+//        resolver.setSuffix(".html");
 //        return resolver;
 //    }
 
 
 
-//  @Override
-//  public void configureDefaultServletHandling (DefaultServletHandlerConfigurer configurer)
-//  {
-//    configurer.enable();
-//  }
+  @Override
+  public void configureDefaultServletHandling (DefaultServletHandlerConfigurer configurer)
+  {
+    configurer.enable();
+  }
 
   @Bean
   public HandlerExceptionResolver exceptionResolver ( )
