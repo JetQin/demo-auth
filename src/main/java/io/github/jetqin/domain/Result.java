@@ -12,12 +12,20 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
+import javax.persistence.FieldResult;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.ParameterMode;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
+
 
 import lombok.Data;
 
@@ -30,9 +38,9 @@ import lombok.Data;
  */
 
 @Entity
-@Table(name = "PRESULT")
+@Table(name = "RESULT")
 @NamedStoredProcedureQueries(
-      @NamedStoredProcedureQuery(name = "Presult.findLoadResult",procedureName="LOADOPERATEDMONTHLYPROD",resultClasses={Presult.class},
+      @NamedStoredProcedureQuery(name = "Presult.findLoadResult",procedureName="LOADOPERATEDMONTHLYPROD",resultClasses={Result.class},
       parameters={ 
           @StoredProcedureParameter(name="LOAD_COUNT",mode=ParameterMode.OUT,type=Integer.class),
           @StoredProcedureParameter(name="NEW_COUNT",mode=ParameterMode.OUT,type=Integer.class),
@@ -40,9 +48,30 @@ import lombok.Data;
           @StoredProcedureParameter(name="MESSAGE",mode=ParameterMode.OUT,type=String.class)
       })
     )
-public @Data class Presult implements Serializable
+@NamedQueries({
+    @NamedQuery(name="load",query="from Result where message = :message")
+})
+
+@NamedNativeQueries({
+  @NamedNativeQuery(name = "loadQuery", query = "SELECT MESSAGE,LOAD_COUNT,FAILED_COUNT,NEW_COUNT FROM RESULT WHERE MESSAGE = ?",resultClass=Result.class ,resultSetMapping="loadQueryMapping")
+})
+@SqlResultSetMapping(name="loadQueryMapping",
+      entities=@EntityResult(entityClass=Result.class,
+      fields = {
+          @FieldResult(name="message",column="MESSAGE"),
+          @FieldResult(name="loadCount",column="LOAD_COUNT"),
+          @FieldResult(name="failedCount",column="FAILED_COUNT"),
+          @FieldResult(name="newCount",column="NEW_COUNT")
+      }) 
+)
+public @Data class Result implements Serializable
 {
-  @Id
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7518856229369739553L;
+
+@Id
   @Column(name = "LOAD_COUNT")
   private int    loadCount;
 

@@ -10,13 +10,9 @@ package io.github.jetqin.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureParameter;
-
-import io.github.jetqin.domain.Presult;
+import io.github.jetqin.domain.Result;
 
 /**
  * ClassName: ResultRepository
@@ -26,7 +22,7 @@ import io.github.jetqin.domain.Presult;
  * @since JDK 1.7
  */
 @Repository
-public interface ResultRepository extends JpaRepository<Presult, Integer>
+public interface ResultRepository extends JpaRepository<Result, Integer>
 {
   // @StoredProcedureParameter(name="LOAD_COUNT",mode=ParameterMode.OUT,type=Integer.class),
   // @StoredProcedureParameter(name="NEW_COUNT",mode=ParameterMode.OUT,type=Integer.class),
@@ -41,6 +37,6 @@ public interface ResultRepository extends JpaRepository<Presult, Integer>
 //      );
   
   @Procedure(procedureName="LOADOPERATEDMONTHLYPROD")
-  Presult LOADOPERATEDMONTHLYPROD( );
+  Result findLoadResult( );
   
 }
