@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -62,14 +61,6 @@ public class Greeting
     return new PageRequest(0,100);
   }
   
-  @RequestMapping("/index")
-  public ModelAndView index(@RequestParam(value="name", required=false, defaultValue="World") String name) {
-      ModelAndView mv = new ModelAndView();
-      mv.addObject("name", "Jet Qin");
-      mv.setViewName("index");
-      return mv;
-  }
-
   
   @RequestMapping ("/login")
   @ResponseBody
@@ -79,5 +70,6 @@ public class Greeting
     mv.setViewName("login");
     return mv;
   }
+  
 
 }

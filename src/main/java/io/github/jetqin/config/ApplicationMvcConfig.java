@@ -10,19 +10,18 @@
 
 package io.github.jetqin.config;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.jetty.JettyEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -30,9 +29,11 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
-import org.springframework.web.servlet.resource.VersionResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import java.util.List;
+
+import io.github.jetqin.config.interceptor.AppHandler;
 import io.github.jetqin.config.interceptor.DruidHandler;
 
 /**
@@ -67,15 +68,19 @@ public class ApplicationMvcConfig extends WebMvcConfigurerAdapter
     
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("index");
-        registry.addViewController("/404").setViewName("404");
-        registry.addViewController("/500").setViewName("500");
+        registry.addViewController("/").setViewName("index.html");
+//        registry.addViewController("/").setViewName("forward:/index.html");
+        registry.addViewController("/404").setViewName("forward:/404.html");
+        registry.addViewController("/500").setViewName("forward:/500.html");
+        registry.addViewController("/error").setViewName("/error/error.html");
+        registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
+        super.addViewControllers( registry );
+        
     }
 
     @Override
     public void addResourceHandlers (ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("classpath:/public/");
-        registry.addResourceHandler("/templates/**").addResourceLocations("classpath:/templates/");
         registry.addResourceHandler("/druid/**").addResourceLocations("classpath:/support.http.resources/");
 //        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").resourceChain(true)
 //                .addResolver(new VersionResourceResolver().addFixedVersionStrategy("1.10", "/**/*.js")
@@ -85,7 +90,7 @@ public class ApplicationMvcConfig extends WebMvcConfigurerAdapter
     @Override
     public void addInterceptors (InterceptorRegistry registry) {
         registry.addInterceptor(new DruidHandler()).addPathPatterns("/druid/**");
-//        registry.addInterceptor(new AppHandler()).addPathPatterns("/**");
+        registry.addInterceptor(new AppHandler()).addPathPatterns("/**");
     }
 
 //    @Bean
@@ -95,13 +100,13 @@ public class ApplicationMvcConfig extends WebMvcConfigurerAdapter
 //        return jettyContainer;
 //    }
 
-//    @Bean
-//    public InternalResourceViewResolver jspViewResolver() {
-//        InternalResourceViewResolver resolver= new InternalResourceViewResolver();
+    @Bean
+    public ViewResolver viewResolver() {
+        InternalResourceViewResolver resolver= new InternalResourceViewResolver();
 //        resolver.setPrefix(env.getProperty("server.context-path"));
-//        resolver.setSuffix(".html");
-//        return resolver;
-//    }
+        resolver.setSuffix(".html");
+        return resolver;
+    }
 
 
 
@@ -115,8 +120,9 @@ public class ApplicationMvcConfig extends WebMvcConfigurerAdapter
   public HandlerExceptionResolver exceptionResolver ( )
   {
     SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
-    exceptionResolver.addStatusCode("404", HttpStatus.NOT_FOUND.value());
-    exceptionResolver.addStatusCode("401", HttpStatus.UNAUTHORIZED.value());
+    exceptionResolver.addStatusCode("/404", HttpStatus.NOT_FOUND.value());
+    exceptionResolver.addStatusCode("/401", HttpStatus.UNAUTHORIZED.value());
+    exceptionResolver.addStatusCode("/500", HttpStatus.SERVICE_UNAVAILABLE.value());
     return exceptionResolver;
   }
 
