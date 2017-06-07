@@ -26,7 +26,6 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
-
 import lombok.Data;
 
 /**
@@ -37,54 +36,45 @@ import lombok.Data;
  * @since JDK 1.7
  */
 
-@Entity
-@Table(name = "RESULT")
-@NamedStoredProcedureQueries(
-      @NamedStoredProcedureQuery(name = "Presult.findLoadResult",procedureName="LOADOPERATEDMONTHLYPROD",resultClasses={Result.class},
-      parameters={ 
-          @StoredProcedureParameter(name="LOAD_COUNT",mode=ParameterMode.OUT,type=Integer.class),
-          @StoredProcedureParameter(name="NEW_COUNT",mode=ParameterMode.OUT,type=Integer.class),
-          @StoredProcedureParameter(name="FAILED_COUNT",mode=ParameterMode.OUT,type=Integer.class),
-          @StoredProcedureParameter(name="MESSAGE",mode=ParameterMode.OUT,type=String.class)
-      })
-    )
-@NamedQueries({
-    @NamedQuery(name="load",query="from Result where message = :message")
-})
+//@Entity
+//@Table(name = "RESULT")
+@NamedStoredProcedureQueries(@NamedStoredProcedureQuery(name = "Presult.findLoadResult", procedureName = "LOADOPERATEDMONTHLYPROD", resultClasses = {
+    Result.class }, parameters = {
+        @StoredProcedureParameter(name = "LOAD_COUNT", mode = ParameterMode.OUT, type = Integer.class),
+        @StoredProcedureParameter(name = "NEW_COUNT", mode = ParameterMode.OUT, type = Integer.class),
+        @StoredProcedureParameter(name = "FAILED_COUNT", mode = ParameterMode.OUT, type = Integer.class),
+        @StoredProcedureParameter(name = "MESSAGE", mode = ParameterMode.OUT, type = String.class) }))
+@NamedQueries({ @NamedQuery(name = "load", query = "from Result where message = :message") })
 
 @NamedNativeQueries({
-  @NamedNativeQuery(name = "loadQuery", query = "SELECT MESSAGE,LOAD_COUNT,FAILED_COUNT,NEW_COUNT FROM RESULT WHERE MESSAGE = ?",resultClass=Result.class ,resultSetMapping="loadQueryMapping")
-})
-@SqlResultSetMapping(name="loadQueryMapping",
-      entities=@EntityResult(entityClass=Result.class,
-      fields = {
-          @FieldResult(name="message",column="MESSAGE"),
-          @FieldResult(name="loadCount",column="LOAD_COUNT"),
-          @FieldResult(name="failedCount",column="FAILED_COUNT"),
-          @FieldResult(name="newCount",column="NEW_COUNT")
-      }) 
-)
+    @NamedNativeQuery(name = "loadQuery", query = "SELECT MESSAGE,LOAD_COUNT,FAILED_COUNT,NEW_COUNT FROM RESULT WHERE MESSAGE = ?", resultClass = Result.class, resultSetMapping = "loadQueryMapping") })
+@SqlResultSetMapping(name = "loadQueryMapping", entities = @EntityResult(entityClass = Result.class, fields = {
+    @FieldResult(name = "message", column = "MESSAGE"), @FieldResult(name = "loadCount", column = "LOAD_COUNT"),
+    @FieldResult(name = "failedCount", column = "FAILED_COUNT"),
+    @FieldResult(name = "newCount", column = "NEW_COUNT") }))
 public @Data class Result implements Serializable
 {
   /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7518856229369739553L;
+   * 
+   */
+  private static final long serialVersionUID = 7518856229369739553L;
 
-@Id
+  @Id
   @Column(name = "LOAD_COUNT")
-  private int    loadCount;
+  private int               loadCount;
 
   @Column(name = "NEW_COUNT")
-  private int    newCount;
+  private int               newCount;
 
   @Column(name = "FAILED_COUNT")
-  private int    failedCount;
+  private int               failedCount;
 
   @Column(name = "MESSAGE")
-  private String message;
-  
-  public String toString(){
-    return String.format("load count: %d,new count:%d,failed count:%d,message:%s", loadCount,newCount,failedCount,message);
+  private String            message;
+
+  public String toString ( )
+  {
+    return String.format("load count: %d,new count:%d,failed count:%d,message:%s", loadCount, newCount, failedCount,
+        message);
   }
 }

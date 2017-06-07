@@ -16,7 +16,7 @@ public class DruidHandler implements HandlerInterceptor
   public boolean preHandle (HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
   {
     log.info("prehandler druid");
-    response.addHeader("Content-Type","text/html; charset=utf-8");
+    response.addHeader("Content-Type", "text/html; charset=utf-8");
     return true;
   }
 
@@ -25,15 +25,15 @@ public class DruidHandler implements HandlerInterceptor
       ModelAndView modelAndView) throws Exception
   {
     log.info("prehandler druid");
-    response.addHeader("Content-Type","text/html; charset=utf-8");
-    
+    response.addHeader("Content-Type", "text/html; charset=utf-8");
+
   }
 
   @Override
   public void afterCompletion (HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
       throws Exception
   {
-    
+
   }
 
 }

@@ -30,24 +30,24 @@ public class Greeting
 {
 
   // @PreAuthorize(value = " /hasAuthority('ADMIN')")
-  @RequestMapping ("/greeting")
+  @RequestMapping("/greeting")
   @ResponseBody
-  public String greeting ()
+  public String greeting ( )
   {
     return "Hello World";
   }
 
   // @PreAuthorize(value = " /hasAuthority('USER')")
-  @RequestMapping ("/hello")
+  @RequestMapping("/hello")
   @ResponseBody
-  public String hello ()
+  public String hello ( )
   {
     return "I said hello";
   }
 
-  @RequestMapping ("/getDate")
+  @RequestMapping("/getDate")
   @ResponseBody
-  public Date getDate ()
+  public Date getDate ( )
   {
     return new Date();
   }
@@ -55,21 +55,19 @@ public class Greeting
   @PreAuthorize(value = " /hasAuthority('USER')")
   @RequestMapping("/page")
   @ResponseBody
-  public PageRequest getPageQuery(PageRequest query)
+  public PageRequest getPageQuery (PageRequest query)
   {
     System.out.println(query);
-    return new PageRequest(0,100);
+    return new PageRequest(0, 100);
   }
-  
-  
-  @RequestMapping ("/login")
+
+  @RequestMapping("/login")
   @ResponseBody
-  public ModelAndView login ()
+  public ModelAndView login ( )
   {
     ModelAndView mv = new ModelAndView();
     mv.setViewName("login");
     return mv;
   }
-  
 
 }

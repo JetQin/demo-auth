@@ -36,26 +36,27 @@ import com.alibaba.druid.pool.DruidDataSource;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories (entityManagerFactoryRef = "entityManagerFactory",transactionManagerRef = "transactionManager",basePackages="io.github.jetqin.repository")
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory", transactionManagerRef = "transactionManager", basePackages = "io.github.jetqin.repository")
 public class PersistenceConfig
 {
-  
+
   @Autowired
   Environment env;
 
   @Bean
-  public DataSource dataSource ()
+  public DataSource dataSource ( )
   {
-    //  BasicDataSource dataSource = new BasicDataSource();
-    //  DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        DruidDataSource dataSource = new DruidDataSource();
-		dataSource.setDriverClassName(env.getProperty("spring.datasource.driverClassName"));
-		dataSource.setUrl(env.getProperty("spring.datasource.url"));
-		dataSource.setUsername(env.getProperty("spring.datasource.username"));
-		dataSource.setPassword(env.getProperty("spring.datasource.password"));
-		dataSource.setMaxActive(Integer.parseInt(env.getProperty("spring.datasource.dbcp.max-active")));
-		return dataSource;
-    // return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
+    // BasicDataSource dataSource = new BasicDataSource();
+    // DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    DruidDataSource dataSource = new DruidDataSource();
+    dataSource.setDriverClassName(env.getProperty("spring.datasource.driverClassName"));
+    dataSource.setUrl(env.getProperty("spring.datasource.url"));
+    dataSource.setUsername(env.getProperty("spring.datasource.username"));
+    dataSource.setPassword(env.getProperty("spring.datasource.password"));
+//    dataSource.setMaxActive(Integer.parseInt(env.getProperty("spring.datasource.dbcp.max-active")));
+    return dataSource;
+    // return new
+    // EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
   }
 
   @Bean
@@ -65,7 +66,7 @@ public class PersistenceConfig
   }
 
   @Bean
-  public JpaVendorAdapter jpaVendorAdapter ()
+  public JpaVendorAdapter jpaVendorAdapter ( )
   {
     HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
     jpaVendorAdapter.setDatabase(Database.MYSQL);
@@ -74,16 +75,16 @@ public class PersistenceConfig
   }
 
   @Bean
-  public LocalContainerEntityManagerFactoryBean entityManagerFactory ()
+  public LocalContainerEntityManagerFactoryBean entityManagerFactory ( )
   {
     LocalContainerEntityManagerFactoryBean lemfb = new LocalContainerEntityManagerFactoryBean();
     lemfb.setDataSource(dataSource());
     lemfb.setJpaVendorAdapter(jpaVendorAdapter());
     lemfb.setPackagesToScan("io.github.jetqin.domain");
-	lemfb.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
-	Properties jpaProperties = new Properties();
-	jpaProperties.put("hibernate.dialect",env.getProperty("spring.jpa.database-platform"));
-	lemfb.setJpaProperties(jpaProperties);
+    lemfb.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
+    Properties jpaProperties = new Properties();
+    jpaProperties.put("hibernate.dialect", env.getProperty("spring.jpa.database-platform"));
+    lemfb.setJpaProperties(jpaProperties);
     return lemfb;
   }
 }

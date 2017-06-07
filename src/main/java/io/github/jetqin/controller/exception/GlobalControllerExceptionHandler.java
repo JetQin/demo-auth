@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-/** 
- * ClassName: GlobalControllerExceptionHandler  
+/**
+ * ClassName: GlobalControllerExceptionHandler
  * 
- * @author jet 
+ * @author jet
  * @version Configuration Framework 1.0
- * @since JDK 1.7 
+ * @since JDK 1.7
  */
 @RestControllerAdvice
 public class GlobalControllerExceptionHandler
 {
-//    @ExceptionHandler(value = { Exception.class })
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//    public ApiErrorResponse unknownException(Exception ex, WebRequest req) {
-//        return new ApiErrorResponse(...);
-//    }
+  // @ExceptionHandler(value = { Exception.class })
+  // @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  // public ApiErrorResponse unknownException(Exception ex, WebRequest req) {
+  // return new ApiErrorResponse(...);
+  // }
 }

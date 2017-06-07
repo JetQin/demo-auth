@@ -14,24 +14,24 @@ import com.alibaba.druid.support.http.WebStatFilter;
 @Configuration
 public class DruidDataSourceConfig
 {
-  
-  //check status http://localhost:8080/druid/index.html
+
+  // check status http://localhost:8080/druid/index.html
   @Bean
   public ServletRegistrationBean mvcServletRegister ( )
   {
     List<String> mappings = new ArrayList<String>();
     mappings.add("/druid/*");
-    
+
     ServletRegistrationBean registration = new ServletRegistrationBean();
     registration.setServlet(new StatViewServlet());
     registration.setName("DruidStatView");
     registration.setUrlMappings(mappings);
-    registration.addInitParameter("allow","127.0.0.1");
-    registration.addInitParameter("deny","192.168.1.73");
-    registration.addInitParameter("resetEnable","false");
+    registration.addInitParameter("allow", "127.0.0.1");
+    registration.addInitParameter("deny", "192.168.1.73");
+    registration.addInitParameter("resetEnable", "false");
 
-    registration.addInitParameter("loginUsername","admin");
-    registration.addInitParameter("loginPassword","123456");
+    registration.addInitParameter("loginUsername", "admin");
+    registration.addInitParameter("loginPassword", "123456");
     return registration;
   }
 

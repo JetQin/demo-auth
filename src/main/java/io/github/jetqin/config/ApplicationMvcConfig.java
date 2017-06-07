@@ -47,68 +47,74 @@ import io.github.jetqin.config.interceptor.DruidHandler;
 public class ApplicationMvcConfig extends WebMvcConfigurerAdapter
 {
 
-    @Autowired
-    Environment env;
+  @Autowired
+  Environment env;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.springframework.web.servlet.config.annotation.
-     * WebMvcConfigurerAdapter# configureMessageConverters(java.util.List)
-     */
-    @Override
-    public void configureMessageConverters (List<HttpMessageConverter<?>> converters) {
-        // TODO Auto-generated method stub
-        super.configureMessageConverters(converters);
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.springframework.web.servlet.config.annotation.
+   * WebMvcConfigurerAdapter# configureMessageConverters(java.util.List)
+   */
+  @Override
+  public void configureMessageConverters (List<HttpMessageConverter<?>> converters)
+  {
+    // TODO Auto-generated method stub
+    super.configureMessageConverters(converters);
 
-        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-        builder.simpleDateFormat("dd/mm/yyyy");
-        converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
-    }
-    
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("index.html");
-//        registry.addViewController("/").setViewName("forward:/index.html");
-        registry.addViewController("/404").setViewName("forward:/404.html");
-        registry.addViewController("/500").setViewName("forward:/500.html");
-        registry.addViewController("/error").setViewName("/error/error.html");
-        registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
-        super.addViewControllers( registry );
-        
-    }
+    Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
+    builder.simpleDateFormat("dd/mm/yyyy");
+    converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
+  }
 
-    @Override
-    public void addResourceHandlers (ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/public/");
-        registry.addResourceHandler("/druid/**").addResourceLocations("classpath:/support.http.resources/");
-//        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").resourceChain(true)
-//                .addResolver(new VersionResourceResolver().addFixedVersionStrategy("1.10", "/**/*.js")
-//                        .addContentVersionStrategy("/**"));
-    }
+  @Override
+  public void addViewControllers (ViewControllerRegistry registry)
+  {
+    registry.addViewController("/").setViewName("index.html");
+    registry.addRedirectViewController("/error", "/error/error.html");
+    registry.addViewController("/404").setViewName("forward:/404.html");
+    registry.addViewController("/500").setViewName("forward:/500.html");
+    registry.addViewController("/error").setViewName("/error/error.html");
+    registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+    super.addViewControllers(registry);
 
-    @Override
-    public void addInterceptors (InterceptorRegistry registry) {
-        registry.addInterceptor(new DruidHandler()).addPathPatterns("/druid/**");
-        registry.addInterceptor(new AppHandler()).addPathPatterns("/**");
-    }
+  }
 
-//    @Bean
-//    public JettyEmbeddedServletContainerFactory jettyEmbeddedServletContainerFactory ( ) {
-//        JettyEmbeddedServletContainerFactory jettyContainer = new JettyEmbeddedServletContainerFactory();
-//        jettyContainer.setContextPath(env.getProperty("server.context-path"));
-//        return jettyContainer;
-//    }
+  @Override
+  public void addResourceHandlers (ResourceHandlerRegistry registry)
+  {
+    registry.addResourceHandler("/**").addResourceLocations("classpath:/public/");
+    registry.addResourceHandler("/druid/**").addResourceLocations("classpath:/support.http.resources/");
+    // registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").resourceChain(true)
+    // .addResolver(new
+    // VersionResourceResolver().addFixedVersionStrategy("1.10", "/**/*.js")
+    // .addContentVersionStrategy("/**"));
+  }
 
-    @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver resolver= new InternalResourceViewResolver();
-//        resolver.setPrefix(env.getProperty("server.context-path"));
-        resolver.setSuffix(".html");
-        return resolver;
-    }
+  @Override
+  public void addInterceptors (InterceptorRegistry registry)
+  {
+    registry.addInterceptor(new DruidHandler()).addPathPatterns("/druid/**");
+    registry.addInterceptor(new AppHandler()).addPathPatterns("/**");
+  }
 
+  // @Bean
+  // public JettyEmbeddedServletContainerFactory
+  // jettyEmbeddedServletContainerFactory ( ) {
+  // JettyEmbeddedServletContainerFactory jettyContainer = new
+  // JettyEmbeddedServletContainerFactory();
+  // jettyContainer.setContextPath(env.getProperty("server.context-path"));
+  // return jettyContainer;
+  // }
 
+  @Bean
+  public ViewResolver viewResolver ( )
+  {
+    InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+    // resolver.setPrefix(env.getProperty("server.context-path"));
+    resolver.setSuffix(".html");
+    return resolver;
+  }
 
   @Override
   public void configureDefaultServletHandling (DefaultServletHandlerConfigurer configurer)
