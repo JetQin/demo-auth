@@ -52,7 +52,7 @@ public class StockRepositoryTest
   public void testGetStockHistory ( )
   {
     StockHistoryID id = new StockHistoryID("2015-01-05","000795");
-    StockHistory stockHistory = historyRepository.findByCode(id);
+    StockHistory stockHistory = historyRepository.findOne(id);
     assertEquals("Find", id.getCode(), stockHistory.getCode());
   }
 

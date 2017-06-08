@@ -24,12 +24,12 @@ public @Data class StockHistory implements Serializable
   
  //date：日期
   @Id
-  @Column(name="DATE",length=8)
+  @Column(name="DATE",length=10)
   private String date;
   
   //code: 股票编码
   @Id
-  @Column(name="CODE",length=6)
+  @Column(name="CODE",length=10)
   private String code;
   
 //  open：开盘价
