@@ -10,6 +10,8 @@
 
 package io.github.jetqin.config;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,6 +20,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -30,8 +33,6 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-
-import java.util.List;
 
 import io.github.jetqin.config.interceptor.AppHandler;
 import io.github.jetqin.config.interceptor.DruidHandler;
@@ -65,6 +66,7 @@ public class ApplicationMvcConfig extends WebMvcConfigurerAdapter
     Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
     builder.simpleDateFormat("dd/mm/yyyy");
     converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
+    converters.add(new StringHttpMessageConverter());
   }
 
   @Override
@@ -84,6 +86,7 @@ public class ApplicationMvcConfig extends WebMvcConfigurerAdapter
   public void addResourceHandlers (ResourceHandlerRegistry registry)
   {
     registry.addResourceHandler("/**").addResourceLocations("classpath:/public/");
+    registry.addResourceHandler("/error/**").addResourceLocations("classpath:/public/error/");
     registry.addResourceHandler("/druid/**").addResourceLocations("classpath:/support.http.resources/");
     // registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").resourceChain(true)
     // .addResolver(new

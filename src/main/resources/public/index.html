@@ -1,10 +1,45 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html>
 <head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Getting Started: Serving Web Content</title>
+<script
+  src="http://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+	//$(function(){
+	 $(document).ready(function(){
+		console.log("test");
+		$("#post").click(function(){
+			console.log("test click");
+			$.ajax({
+				  type: "POST",
+				  url: "/hello",
+				  success: function(){
+					  console.log("success");
+				  },
+				  dataType: 'json'
+				});
+		});
+	}); 
+	
+/* 	function test(){
+		 $("#post").click(function(){
+			console.log("test click");
+			$.ajax({
+				  type: "POST",
+				  url: "/public/hello",
+				  success: function(){
+					  console.log("success");
+				  },
+				  dataType: 'json'
+				});
+		});
+	} */
+</script>
 </head>
 <body>
-   <p>Hello public templates</p>
+	<p>Hello public templates</p>
+	<input id="post" type="button" value="test click"/>
 </body>
 </html>

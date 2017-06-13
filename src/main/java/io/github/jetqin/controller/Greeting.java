@@ -13,10 +13,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * ClassName: Greeting
@@ -40,9 +44,17 @@ public class Greeting
   // @PreAuthorize(value = " /hasAuthority('USER')")
   @RequestMapping("/hello")
   @ResponseBody
-  public String hello ( )
+  public ModelAndView hello (HttpServletResponse resp )
   {
-    return "I said hello";
+    //      resp.sendRedirect("http://baidu.com");
+//          resp.setHeader( "Location", "https://baidu.com" );
+//          resp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+//    return "forward:/sso.html";
+    
+//    ModelAndView mv = new ModelAndView();
+//    mv.setViewName("sso");
+//    return mv;
+    return new ModelAndView("redirect:sso.html");
   }
 
   @RequestMapping("/getDate")

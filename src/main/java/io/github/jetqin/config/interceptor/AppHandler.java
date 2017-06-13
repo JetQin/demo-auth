@@ -36,6 +36,12 @@ public class AppHandler extends HandlerInterceptorAdapter
     // else if ( response.getStatus() == 404 ) {
     // modelAndView.setViewName("404");
     // }
+    if(null != request.getRequestURL() && request.getRequestURL().toString().contains("/hello"))
+    {
+//      response.setHeader( "Location", "https://baidu.com" );
+//      response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+//      response.sendRedirect("https://baidu.com");
+    }
   }
 
 }

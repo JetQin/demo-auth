@@ -2,23 +2,20 @@ package io.github.jetqin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
+import io.github.jetqin.config.ApplicationMvcConfig;
 import io.github.jetqin.config.DruidDataSourceConfig;
 import io.github.jetqin.config.PersistenceConfig;
 import io.github.jetqin.config.WebSecurityConfig;
-import io.github.jetqin.domain.Stock;
-import io.github.jetqin.repository.StockRepository;
 
 @SpringBootApplication
-@Import(value = { WebSecurityConfig.class, DruidDataSourceConfig.class, PersistenceConfig.class })
+@Import(value = {ApplicationMvcConfig.class,WebSecurityConfig.class, DruidDataSourceConfig.class, PersistenceConfig.class })
 @ComponentScan(basePackages = "io.github.jetqin.*")
 public class DemoAuthApplication extends SpringBootServletInitializer
 {
