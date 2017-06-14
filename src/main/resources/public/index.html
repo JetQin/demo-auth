@@ -2,16 +2,16 @@
 <html>
 <head>
 <title>Getting Started: Serving Web Content</title>
-<script
-  src="http://code.jquery.com/jquery-2.2.4.min.js"
-  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jqueryTable.js"></script>
+<script type="text/javascript" src="js/bootTable.js"></script>
 <script type="text/javascript">
-	//$(function(){
-	 $(document).ready(function(){
+	$(function(){
 		console.log("test");
 		$("#post").click(function(){
-			console.log("test click");
+			$("#table").bootTable({columns:["test","name","price"]});
+			//$("#table").jqueryTable();
 			$.ajax({
 				  type: "POST",
 				  url: "/hello",
@@ -21,25 +21,14 @@
 				  dataType: 'json'
 				});
 		});
+		
 	}); 
 	
-/* 	function test(){
-		 $("#post").click(function(){
-			console.log("test click");
-			$.ajax({
-				  type: "POST",
-				  url: "/public/hello",
-				  success: function(){
-					  console.log("success");
-				  },
-				  dataType: 'json'
-				});
-		});
-	} */
 </script>
 </head>
 <body>
 	<p>Hello public templates</p>
 	<input id="post" type="button" value="test click"/>
+	<div id="table"></div>
 </body>
 </html>
